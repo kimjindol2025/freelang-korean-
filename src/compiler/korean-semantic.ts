@@ -164,6 +164,9 @@ export class TypeChecker {
   check(program: AST.Program): SemanticErrors {
     this.errors = [];
 
+    // 내장 함수 정의 (Builtin Functions)
+    this.defineBuiltinFunctions();
+
     try {
       for (const statement of program.statements) {
         this.checkStatement(statement);
@@ -176,6 +179,34 @@ export class TypeChecker {
       hasErrors: this.errors.length > 0,
       errors: this.errors
     };
+  }
+
+  /**
+   * 내장 함수 정의
+   */
+  private defineBuiltinFunctions(): void {
+    const builtins = [
+      { name: '출력', params: ['any'], returnType: '공집합' },
+      { name: '타입', params: ['any'], returnType: '문자열' },
+      { name: '길이', params: ['배열|문자열'], returnType: '숫자' },
+      { name: '푸시', params: ['배열', 'any'], returnType: '배열' },
+      { name: '팝', params: ['배열'], returnType: 'any' },
+      { name: '슬라이스', params: ['배열|문자열', '숫자', '숫자'], returnType: '배열|문자열' },
+      { name: '조인', params: ['배열', '문자열'], returnType: '문자열' },
+    ];
+
+    for (const builtin of builtins) {
+      const funcSymbol: FunctionSymbol = {
+        name: builtin.name,
+        type: 'function',
+        parameterTypes: builtin.params.map(p => ({ kind: 'primitive' as const, name: p })),
+        returnType: { kind: 'primitive' as const, name: builtin.returnType },
+        scope: 0,
+        line: 0,
+        column: 0
+      };
+      this.symbolTable.define(funcSymbol);
+    }
   }
 
   /**
@@ -634,6 +665,16 @@ export class TypeChecker {
       return { kind: 'primitive', name: '공집합' };
     }
 
+    // 함수 심볼이면 FunctionType 반환
+    if (symbol.type === 'function') {
+      const funcSym = symbol as FunctionSymbol;
+      return {
+        kind: 'function',
+        parameterTypes: funcSym.parameterTypes,
+        returnType: funcSym.returnType
+      };
+    }
+
     return symbol.valueType || { kind: 'primitive', name: '공집합' };
   }
 
@@ -745,6 +786,14 @@ export class TypeChecker {
   }
 
   private isCompatible(fromType: Type, toType: Type): boolean {
+    // 'any' 타입은 모든 것과 호환
+    if (toType.kind === 'primitive' && toType.name === 'any') {
+      return true;
+    }
+    if (fromType.kind === 'primitive' && fromType.name === 'any') {
+      return true;
+    }
+
     // 같은 타입
     if (JSON.stringify(fromType) === JSON.stringify(toType)) {
       return true;
