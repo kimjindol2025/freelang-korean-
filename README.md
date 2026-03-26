@@ -1,181 +1,160 @@
-# 🚀 K-FreeLang v1.0
+# 🇰🇷 FreeLang v2 – 한글 식별자 지원
 
-**한국형 독립 프로그래밍 언어**
+**한국 개발자를 위한 프로그래밍 언어 (한글 변수명/함수명 지원)**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](package.json)
-[![Status](https://img.shields.io/badge/status-Stable-success.svg)](#)
-[![Language](https://img.shields.io/badge/language-FreeLang%20%2B%20Korean-ff6b6b)](#)
+[![Status](https://img.shields.io/badge/status-Development-yellow.svg)](#현재-상태)
+[![Language](https://img.shields.io/badge/language-FreeLang%20v2-blue)](#)
+[![Korean Support](https://img.shields.io/badge/korean-✅%20supported-brightgreen)](#-한글-식별자-예시)
 
 ---
 
-## 🇰🇷 한국형 독립 언어란?
+## 💡 프로젝트란?
 
-**K-FreeLang**은:
-- ✅ **완전히 독립된** - TypeScript/Node.js 의존성 제거
-- ✅ **한국을 위한** - ARIA/SEED, PIPA, ISMS 등 국내 표준 내재화
-- ✅ **자신을 검증하는** - 컴파일러가 자신의 코드를 100% 컴파일
-- ✅ **투명한** - 뒷문 불가능, 규제 감시 가능
+**FreeLang v2**를 기반으로 **한글 변수명/함수명 지원**을 추가한 프로그래밍 언어입니다.
 
-프로그래밍 언어이자, **한국의 IT 독립성을 상징하는 프로젝트**입니다.
+```freelang
+변수 이름 = "김철수"
+변수 나이 = 30
+변수 급여 = 5000000
+
+함수 세금계산(월급: 숫자) → 숫자 {
+  반환 월급 * 0.03
+}
+
+출력(이름 + "의 세금: " + 세금계산(급여))
+```
+
+**기존 FreeLang의 모든 기능을 유지하면서, 한글로 코드를 작성할 수 있습니다.**
 
 ---
 
-## 🎯 4대 핵심 특징
+## ✨ 특징
 
-### 1️⃣ 보안 및 규제 준수 (Compliance-as-Code)
+### 1️⃣ 한글 식별자 완벽 지원
 ```freelang
-@comply(PIPA: true)        // 개인정보보호법
-@comply(ISMS: required)     // 정보보안관리체계
-@comply(PCI-DSS: 3.2)       // 결제보안
+// 한글 변수명
+변수 사용자이름 = "김철수"
+변수 총매출액 = 1000000
+변수 활성화여부 = 참
 
-함수 고객정보저장(이름: 문자열, 계좌: 문자열) → 참거짓 {
-  암호화된이름 = ARIA_암호화(이름, 마스터키)
-  암호화된계좌 = SEED_암호화(계좌, 마스터키)
-
-  // 컴파일 타임에 규제 검증:
-  // - 개인정보 노출 가능성? → ERROR
-  // - 암호화 사용? → OK
-  // - 감시 로그 포함? → OK
-
-  저장(암호화된이름, 암호화된계좌)
-  반환 참
+// 한글 함수명
+함수 사용자검증(아이디: 문자열) → 참거짓 {
+  변수 유효한가 = 아이디.len > 3
+  반환 유효한가
 }
+
+// 한글 상수
+상수 기본인증번호 = "123456"
 ```
 
-### 2️⃣ 인프라 지향적 설계 (Infrastructure-as-Intent)
+### 2️⃣ 기존 FreeLang v2 완전 호환
+- 영문 키워드 (`if`, `function`, `var` 등) 그대로 사용 가능
+- 한글과 영문 혼합 코드 작성 가능
+- 기존 v2 라이브러리 모두 사용 가능
+
+### 3️⃣ 한국형 표준 라이브러리 (K-StdLib)
 ```freelang
-// 실시간 증발형 아키텍처
-함수 API_처리(요청: HTTP) → JSON {
-  // 요청 도착 시만 자원 점유
-  응답 = 로직처리(요청)
+// 암호화 (ARIA, SEED)
+변수 암호화됨 = ARIA_암호화("개인정보", "키")
 
-  // 작업 종료 시 즉시 증발
-  반환 응답
+// 규제 준수 (PIPA, 주민번호 검증)
+만약 RRN_유효한가("950101-1234567") {
+  출력("유효한 주민등록번호")
 }
-// CPU, 메모리 자동 해제 (클라우드 비용 최소화)
 
-// 모바일 에지 최적화
-@target(android-termux, arm-v7)
-함수 엣지계산(데이터: 바이트배열) → 바이트배열 {
-  // Zero-copy 기반 초경량 런타임
-  결과 = SIMD최적화(데이터)
-  반환 결과  // 메모리 1MB 이하
-}
+// 2FA (TOTP/HOTP)
+변수 코드 = TOTP_생성("비밀키")
 ```
 
-### 3️⃣ 기록과 증명 (The Proof Architecture)
-```freelang
-// 바이너리 내부 메타데이터
-@proof {
-  "source_hash": "abc123def456...",
-  "build_time": "2026-03-26T21:30:00Z",
-  "compiler": "K-FreeLang 0.1-alpha",
-  "compliance": {
-    "PIPA": "PASS",
-    "ISMS": "PASS",
-    "crypto": ["ARIA", "SEED"]
-  },
-  "builders": ["kim"],
-  "repository": "gogs.dclub.kr/kim/freelang-korean-independent"
-}
-
-함수 검증() → 참거짓 {
-  바이너리증명 = 자신의메타데이터()
-
-  // "이 파일이 정말 우리가 컴파일한 파일인가?"
-  // → 메타데이터로 100% 검증 가능
-
-  반환 바이너리증명.무결성검증()
-}
-```
-
-### 4️⃣ 고성능 제어 + 추상화 (System Control ∩ Abstraction)
-```freelang
-// 반도체 제조 제어 (저수준)
-@asm("x86-64")
-함수 PLC제어(레지스터: 주소) → 정수 {
-  결과 = 메모리읽기(레지스터)
-  메모리쓰기(레지스터, 결과 + 1)
-  반환 결과
-}
-
-// 배송 로직 DSL (고수준)
-도메인특화언어 배송 {
-  주문처리 = {
-    재고확인 → 결제 → 포장 → 배송
-  }
-
-  배송추적 = {
-    픽업 → 터미널 → 택배기사 → 배달 → 확인
-  }
-
-  자동실행 = 주문처리 연결 배송추적
-}
-
-// 10줄 vs 원래 200줄
-```
+### 4️⃣ 기존 FreeLang 기능
+- Smart Bridge (모드 감지)
+- Nexus (V→C 컴파일)
+- 모듈 시스템 (import/export)
+- 테스트 프레임워크
 
 ---
 
-## 📊 프로젝트 현황
+## 📊 현재 상태
 
-### 기술 기반
-| 항목 | 상태 | 진행률 |
-|------|------|--------|
-| **v2 부트스트랩** | 69% 완성 | 🟨 |
-| **한글 문법 설계** | 준비 중 | 🟩 |
-| **K-StdLib** | 설계 중 | 🟩 |
-| **완전 독립** | 목표 | 🟨 |
+### 개발 진행 현황
 
-### 로드맵
+| 항목 | 상태 | 진행률 | 상세 |
+|------|------|--------|------|
+| **v2 부트스트랩** | 🟨 진행 중 | 69% | Anonymous Struct Literal, Struct Constructor 등 P1~P5 진행 |
+| **한글 식별자** | ✅ 완성 | 100% | 렉서에서 한글(가-힣) 인식 가능 |
+| **한글 문법** | 🟨 진행 중 | 50% | 한글 키워드 (변수, 함수, 반환, 만약 등) |
+| **K-StdLib** | 🟨 진행 중 | 40% | Crypto (OTP, Encoding), Compliance (검증, 마스킹) |
+| **npm 배포** | ⏳ 대기 | 0% | v2 부트스트랩 100% 완성 후 |
+
+### 사용 가능한 것 ✅
+- ✅ 한글 변수명/함수명 작성 가능
+- ✅ 영문 키워드 (if, function, var 등)
+- ✅ FreeLang v2 기본 기능 (부트스트랩 69% 통과)
+- ✅ 한글 표준 라이브러리 설계
+
+### 아직 개발 중인 것 🚧
+- 🚧 v2 부트스트랩 나머지 31% (P1~P5)
+- 🚧 한글 키워드 완전 지원
+- 🚧 npm 설치 (개발 중, 현재는 git clone 필요)
+- 🚧 자가호스팅 (FreeLang으로 FreeLang 컴파일)
+
+### 로드맵 (예상)
 ```
 Week 1 (2026-03-26~04-01)
-  ├─ v2 부트스트랩 100% 완성
-  ├─ 한글 문법 v1.0 설계
-  └─ K-StdLib 핵심 모듈 정의
+  ├─ v2 부트스트랩 69% → 100%
+  └─ 한글 식별자 렉서 지원 ✅ DONE
 
 Week 2-3 (2026-04-02~04-15)
-  ├─ 렉서/파서 한글화
-  ├─ 암호화 모듈 구현
-  ├─ 규제 검증 시스템
-  └─ 증명 아키텍처 구현
+  ├─ 한글 키워드 완전 지원
+  ├─ K-StdLib 확장 (암호화, 검증)
+  └─ 테스트 커버리지 강화
 
-Week 4-6 (2026-04-16~05-06)
-  ├─ 전체 코드 작성 및 테스트
-  ├─ 자가 호스팅 검증
-  └─ 한국형 표준 문서화
-
-Week 7 (2026-05-07)
-  ├─ K-FreeLang 2.0 공식 출시
-  ├─ 정부/기업 표준 신청
-  └─ 교육 기관 협력 시작
+Week 4 (2026-04-16~05-06)
+  ├─ npm 배포 준비
+  ├─ 문서 정리
+  └─ 커뮤니티 베타 테스트
 ```
 
 ---
 
 ## 🚀 빠른 시작
 
-### 설치 (아직 미지원 - 개발 중)
+### 1️⃣ 설치 (현재는 Git Clone 필요)
 ```bash
 git clone https://github.com/kimjindol2025/freelang-korean.git
 cd freelang-korean-independent
 
-# v2 부트스트랩 로드
+# 의존성 설치
 npm install
 
-# 개발 환경 시작
+# 개발 서버 시작
 npm run dev
 ```
 
-### Hello World (한글 문법)
+**npm 글로벌 설치는 아직 미지원입니다.** (v2 부트스트랩 100% 완성 후 배포 예정)
+
+### 2️⃣ 한글 코드 작성해보기
 ```freelang
-// main.free
-함수 main() → void {
-  출력("안녕하세요, 한국형 프리랭!")
+// test-korean.free
+
+변수 이름 = "김철수"
+변수 나이 = 30
+
+함수 인사하기(사람이름: 문자열, 사람나이: 숫자) {
+  출력(사람이름 + "님, 나이는 " + 사람나이 + "세입니다")
 }
 
-main()
+인사하기(이름, 나이)
+```
+
+### 3️⃣ 테스트 실행
+```bash
+# hello-korean 예시 실행
+npm run test
+
+# 한글 식별자 테스트
+node _v2-source/dist/script-runner test-korean.free
 ```
 
 ---
@@ -204,15 +183,41 @@ MIT License - 자유로운 사용/수정/배포 가능
 
 ---
 
-## 🎯 비전
+## 🎯 목표
 
-> **"한국이 만든 언어가, 한국 코드로, 한국을 검증한다"**
+**한국 개발자를 위한 프로그래밍 언어**
 
-K-FreeLang은 단순한 프로그래밍 언어가 아닙니다.
-한국의 IT 독립성과 보안 자주권을 상징하는 프로젝트입니다.
+- 🇰🇷 **한글로 코딩 가능** - 변수명, 함수명 모두 한글 지원
+- 🔒 **보안 표준 내재화** - PIPA, SEED/ARIA 암호화 기본 제공
+- 📚 **배우기 쉬운 언어** - 한국 개발자 입문자 친화적
+- 🛠️ **실무 사용 가능** - FreeLang v2 기반으로 안정성 확보
 
 ---
 
-**독립 선언일**: 2026-03-26
-**프로젝트 리더**: Kim (KimNexus)
-**상태**: 🚀 공식 시작
+## 📖 문서
+
+- [기여 가이드](./CONTRIBUTING.md)
+- [API 레퍼런스](./docs/API.md)
+- [Discussion 가이드](./docs/discussions-guide.md)
+- [한글 문법 설계 (진행 중)](./docs/specifications/KOREAN_SYNTAX.md)
+
+---
+
+## 🤝 도움말
+
+### 버그 보고
+[GitHub Issues](https://github.com/kimjindol2025/freelang-korean/issues)에서 버그를 보고해주세요.
+
+### 기능 제안
+[GitHub Discussions](https://github.com/kimjindol2025/freelang-korean/discussions)에서 아이디어를 제안해주세요.
+
+### 개발자 커뮤니티
+- **Gogs**: https://gogs.dclub.kr/kim/freelang-korean-independent
+- **GitHub**: https://github.com/kimjindol2025/freelang-korean
+
+---
+
+**프로젝트 시작**: 2026-03-26
+**현재 버전**: v2 (부트스트랩 69%)
+**라이선스**: MIT
+**개발자**: Kim (KimNexus) + Community
