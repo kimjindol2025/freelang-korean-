@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-FreeLang v1.0 - 한국형 독립 프로그래밍 언어</title>
+    <meta name="description" content="K-FreeLang: 한국 개발자를 위한 완전 독립형 프로그래밍 언어. 47개 한글 키워드, 자가호스팅, PIPA/ISMS 준수">
+    <meta name="keywords" content="프로그래밍 언어, 한글, K-FreeLang, FreeLang, 독립형, 개발">
+    <meta name="author" content="Kim's Team">
+    <meta property="og:title" content="K-FreeLang v1.0 - 한국형 독립 프로그래밍 언어">
+    <meta property="og:description" content="한국 개발자를 위한 완전히 독립된 프로그래밍 언어">
+    <meta property="og:image" content="/assets/og-image.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f4788;
+            text-decoration: none;
+        }
+
+        nav .logo span {
+            color: #ff6b6b;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #1f4788;
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(135deg, #1f4788 0%, #2d5fa3 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeInUp 0.6s ease 0.2s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.4s backwards;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1f4788;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        /* 메인 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 섹션 */
+        section {
+            padding: 80px 20px;
+        }
+
+        section h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #1f4788;
+        }
+
+        /* 기능 섹션 */
+        .features {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #1f4788;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #1f4788;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 코드 예제 섹션 */
+        .code-section {
+            background: #f8f9fa;
+        }
+
+        .code-example {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .code-example h3 {
+            color: #1f4788;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* 통계 섹션 */
+        .stats {
+            background: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 다운로드 섹션 */
+        .download {
+            background: linear-gradient(135deg, #1f4788 0%, #2d5fa3 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .download h2 {
+            color: white;
+        }
+
+        .download p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* 푸터 */
+        footer {
+            background: #1f4788;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #ff6b6b;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            section h2 {
+                font-size: 28px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                min-width: 200px;
+            }
+        }
+
+        /* 배지 */
+        .badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .badge.green {
+            background: #51cf66;
+        }
+
+        .badge.blue {
+            background: #1f4788;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">K-Free<span>Lang</span> v1.0</a>
+            <ul>
+                <li><a href="#features">기능</a></li>
+                <li><a href="#examples">예제</a></li>
+                <li><a href="#docs">문서</a></li>
+                <li><a href="#stats">통계</a></li>
+                <li><a href="#download">다운로드</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <div class="container">
+            <h1>🚀 K-FreeLang v1.0</h1>
+            <p>한국 개발자를 위한 완전히 독립된 프로그래밍 언어</p>
+            <div class="cta-buttons">
+                <a href="https://github.com/kimjindol2025/freelang-korean-" class="btn btn-primary">GitHub에서 보기</a>
+                <a href="#docs" class="btn btn-secondary">문서 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 기능 섹션 -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>✨ 핵심 기능</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🔤 100% 한글 문법</h3>
+                    <p>47개의 한글 키워드로 직관적이고 쉬운 프로그래밍</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ 비동기 & 동시성</h3>
+                    <p>async/await, Mutex, Channel 등 현대식 동시성 지원</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔐 보안 & 규제</h3>
+                    <p>PIPA, ISMS 준수 - 한국 표준 내재화</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 자가 호스팅</h3>
+                    <p>K-FreeLang으로 K-FreeLang 컴파일 - 완전 독립형</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📦 표준 라이브러리</h3>
+                    <p>16개 K-StdLib 모듈 - 암호화, 검증, 감사</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚙️ 최적화 컴파일러</h3>
+                    <p>35-62% 코드 크기 감소 - 고성능 컴파일</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 코드 예제 -->
+    <section class="code-section" id="examples">
+        <div class="container">
+            <h2>💡 코드 예제</h2>
+
+            <div class="code-example">
+                <h3>1️⃣ Hello World</h3>
+                <pre><code>함수 main() → 공집합 {
+  출력("안녕하세요, K-FreeLang!")
+}
+
+main()</code></pre>
+            </div>
+
+            <div class="code-example">
+                <h3>2️⃣ 함수 & 변수</h3>
+                <pre><code>함수 add(a: 숫자, b: 숫자) → 숫자 {
+  반환 a + b
+}
+
+변수 결과 = add(10, 20)
+출력(결과)  // 30</code></pre>
+            </div>
+
+            <div class="code-example">
+                <h3>3️⃣ 비동기 프로그래밍 ⭐</h3>
+                <pre><code>비동기 함수 데이터_불러오기() → 문자열 {
+  대기 지연(1000)
+  반환 "데이터"
+}
+
+비동기 함수 main() → 공집합 {
+  변수 데이터 = 대기 데이터_불러오기()
+  출력(데이터)
+}</code></pre>
+            </div>
+
+            <div class="code-example">
+                <h3>4️⃣ 개인정보 보호 (PIPA)</h3>
+                <pre><code>변수 주민번호 = "123456-1234567"
+
+// 유효성 검증
+변수 유효 = RRN_유효성검증(주민번호)
+
+// 마스킹
+변수 마스크됨 = RRN_마스킹(주민번호)
+// 결과: "123456-****67"</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- 통계 -->
+    <section class="stats" id="stats">
+        <div class="container">
+            <h2>📊 프로젝트 통계</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">21,973</div>
+                    <div class="stat-label">총 코드 라인</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">한글 키워드</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">K-StdLib 모듈</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">테스트 통과</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">35%</div>
+                    <div class="stat-label">코드 크기 감소</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4주</div>
+                    <div class="stat-label">개발 기간</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 문서 섹션 -->
+    <section id="docs">
+        <div class="container">
+            <h2>📚 문서 & 자료</h2>
+            <div class="features-grid" style="margin-top: 50px;">
+                <div class="feature-card">
+                    <h3>🎓 튜토리얼</h3>
+                    <p>✓ Hello World<br>✓ 기본 문법<br>✓ 고급 기능<br>✓ 패턴 매칭<br>✓ 비동기 프로그래밍<br>✓ 동시성</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📖 명세서</h3>
+                    <p>✓ 한글 문법 v1.0<br>✓ K-StdLib API<br>✓ 컴파일러 구조<br>✓ 심화 최적화</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔗 링크</h3>
+                    <p>✓ <a href="https://github.com/kimjindol2025/freelang-korean-" style="color: #1f4788;">GitHub 저장소</a><br>✓ <a href="https://gogs.dclub.kr/kim/freelang-korean" style="color: #1f4788;">Gogs 저장소</a><br>✓ <a href="https://github.com/kimjindol2025/freelang-korean-/issues" style="color: #1f4788;">Issue Tracker</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 다운로드 섹션 -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2>🚀 시작하기</h2>
+            <p>K-FreeLang을 지금 바로 시작하세요!</p>
+
+            <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 8px; text-align: left; max-width: 600px; margin: 30px auto;">
+                <h3 style="margin-bottom: 20px;">1. 저장소 클론</h3>
+                <pre style="background: rgba(0,0,0,0.3); margin-bottom: 20px;"><code>git clone https://github.com/kimjindol2025/freelang-korean-.git
+cd freelang-korean-independent
+npm install</code></pre>
+
+                <h3 style="margin-bottom: 20px;">2. 첫 프로그램 작성</h3>
+                <pre style="background: rgba(0,0,0,0.3); margin-bottom: 20px;"><code>cat > hello.free << 'EOF'
+함수 main() → 공집합 {
+  출력("안녕하세요!")
+}
+
+main()
+EOF</code></pre>
+
+                <h3 style="margin-bottom: 20px;">3. 실행</h3>
+                <pre style="background: rgba(0,0,0,0.3);"><code>npm run run hello.free</code></pre>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="https://github.com/kimjindol2025/freelang-korean-" class="btn btn-primary" style="font-size: 18px; padding: 15px 40px;">GitHub에서 지금 시작</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <h3>K-FreeLang v1.0</h3>
+            <p>한국 개발자를 위한 독립 프로그래밍 언어</p>
+
+            <div class="footer-links">
+                <a href="https://github.com/kimjindol2025/freelang-korean-">GitHub</a>
+                <a href="https://github.com/kimjindol2025/freelang-korean-/issues">Issues</a>
+                <a href="https://github.com/kimjindol2025/freelang-korean-/discussions">Discussions</a>
+                <a href="LICENSE">License</a>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
+                MIT License © 2026 Kim's Development Team
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
