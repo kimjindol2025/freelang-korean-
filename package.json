@@ -1,5 +1,5 @@
 {
-  "name": "@k-freelang/independent",
+  "name": "freelang-korean",
   "version": "1.0.0",
   "description": "K-FreeLang: 완전히 독립된 한국형 프로그래밍 언어. 47개 한글 키워드, 자가호스팅, PIPA/ISMS 준수",
   "main": "dist/compiler/compiler.js",
@@ -16,8 +16,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gogs.dclub.kr/kim/freelang-korean-independent.git"
+    "url": "https://github.com/kimjindol2025/freelang-korean-.git"
   },
+  "homepage": "https://kimjindol2025.github.io/freelang-korean-/",
+  "bugs": {
+    "url": "https://github.com/kimjindol2025/freelang-korean-/issues",
+    "email": "kim@dclub.kr"
+  },
+  "files": [
+    "dist/",
+    "bin/",
+    "lib/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "keywords": [
     "k-freelang",
     "korean-language",
