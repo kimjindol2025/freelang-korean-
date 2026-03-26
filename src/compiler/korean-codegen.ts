@@ -113,6 +113,9 @@ const 타입 = __freelang.타입;
       case 'ExpressionStatement':
         this.emitExpressionStatement(stmt as AST.ExpressionStatement);
         break;
+      case 'UseStatement':
+        this.emitUseStatement(stmt as AST.UseStatement);
+        break;
       case 'ModuleDeclaration':
         this.emitModuleDeclaration(stmt as AST.ModuleDeclaration);
         break;
@@ -292,6 +295,42 @@ const 타입 = __freelang.타입;
     this.emitNewline();
   }
 
+  private emitUseStatement(stmt: AST.UseStatement): void {
+    // 모듈 임포트: use 모듈이름 = "경로"
+    // JavaScript로: const 모듈이름 = require("경로") 또는 동적 로드
+    this.emit(`const ${stmt.module} = (() => {`);
+    this.emitNewline();
+    this.indentLevel++;
+
+    // 경로 검증 및 동적 로드
+    this.emit(`try {`);
+    this.emitNewline();
+    this.indentLevel++;
+
+    // 파일 경로 표준화 (상대경로 → ./ 추가)
+    const path = stmt.path.startsWith('.') ? stmt.path : `./${stmt.path}`;
+    this.emit(`return require('${path}');`);
+    this.emitNewline();
+
+    this.indentLevel--;
+    this.emit(`} catch (error) {`);
+    this.emitNewline();
+    this.indentLevel++;
+
+    this.emit(`console.error('모듈 로드 실패: ${stmt.module} (${path})', error);`);
+    this.emitNewline();
+    this.emit(`return {};`);
+    this.emitNewline();
+
+    this.indentLevel--;
+    this.emit(`}`);
+    this.emitNewline();
+
+    this.indentLevel--;
+    this.emit(`})();`);
+    this.emitNewline();
+  }
+
   private emitModuleDeclaration(stmt: AST.ModuleDeclaration): void {
     this.emit(`const ${stmt.name} = {`);
     this.emitNewline();
@@ -435,7 +474,41 @@ const 타입 = __freelang.타입;
       this.emitExpression(expr.property as AST.Expression);
       this.emit(`]`);
     } else {
-      this.emit(`.${expr.property}`);
+      // 빌트인 메서드 매핑: K-FreeLang → JavaScript
+      const property = expr.property as string;
+      const builtInMethods: { [key: string]: string } = {
+        // 길이/크기 (배열, 문자열, 맵)
+        'len': 'length',
+        'size': 'length',
+
+        // 배열 메서드 (K-FreeLang 이름 → JS 이름)
+        '추가': 'push',
+        '제거': 'pop',
+        '첫제거': 'shift',
+        '앞추가': 'unshift',
+        '합치기': 'concat',
+        '결합': 'join',
+        '역순': 'reverse',
+        '정렬': 'sort',
+        '매핑': 'map',
+        '필터': 'filter',
+        '축약': 'reduce',
+        '찾기': 'find',
+        '포함': 'includes',
+        '위치': 'indexOf',
+
+        // 문자열 메서드
+        '대문자': 'toUpperCase',
+        '소문자': 'toLowerCase',
+        '공백제거': 'trim',
+        '부분': 'substring',
+        '분할': 'split',
+        '바꾸기': 'replace',
+        '반복': 'repeat',
+      };
+
+      const mappedProperty = builtInMethods[property] || property;
+      this.emit(`.${mappedProperty}`);
     }
   }
 
