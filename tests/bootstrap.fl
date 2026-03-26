@@ -1,0 +1,7 @@
+fn main() -> string {
+  let sum = 5 + 3
+  if sum != 8 {
+    return "FAIL"
+  }
+  return "PASS"
+}
