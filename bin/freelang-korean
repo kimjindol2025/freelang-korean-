@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+
+/**
+ * K-FreeLang CLI Entry Point
+ * 한글 특화 FreeLang 컴파일러
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+// 커맨드라인 인자 파싱
+const args = process.argv.slice(2);
+
+if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
+  console.log(`
+K-FreeLang Compiler - 한글 특화 언어
+
+사용법:
+  freelang-korean run <file>      파일 실행
+  freelang-korean build <file>    파일 컴파일
+  freelang-korean --version       버전 표시
+  freelang-korean --help          도움말 표시
+
+예제:
+  freelang-korean run mycode.kr
+  freelang-korean build mycode.fl
+
+파일 확장자:
+  .kr   - 한글 전용 (권장)
+  .fl   - 표준 (자동으로 K 모드로 처리)
+  `);
+  process.exit(0);
+}
+
+if (args[0] === '--version' || args[0] === '-v') {
+  const packageJson = require(path.join(__dirname, '../package.json'));
+  console.log(`K-FreeLang v${packageJson.version || '1.0.0'}`);
+  process.exit(0);
+}
+
+const command = args[0];
+const filePath = args[1];
+
+if (!filePath) {
+  console.error('❌ 에러: 파일 경로를 지정하세요');
+  console.error('사용법: freelang-korean run <file>');
+  process.exit(1);
+}
+
+// 파일 존재 확인
+if (!fs.existsSync(filePath)) {
+  console.error(`❌ 에러: 파일을 찾을 수 없습니다: ${filePath}`);
+  process.exit(1);
+}
+
+// 컴파일러 로드
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { K_Compiler } = require(path.join(__dirname, '../dist/compiler/compiler'));
+  const compiler = new K_Compiler();
+
+  if (command === 'run') {
+    compiler.run(filePath);
+  } else if (command === 'build') {
+    console.log(`[INFO] K-FreeLang으로 컴파일 중: ${filePath}`);
+    compiler.compile(filePath);
+    console.log('[OK] 컴파일 완료');
+  } else {
+    console.error(`❌ 알 수 없는 커맨드: ${command}`);
+    console.error('사용 가능한 커맨드: run, build');
+    process.exit(1);
+  }
+} catch (error) {
+  console.error(`❌ 컴파일 에러:`);
+  if (error instanceof Error) {
+    console.error(error.message);
+  } else {
+    console.error(error);
+  }
+  process.exit(1);
+}

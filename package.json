@@ -4,7 +4,8 @@
   "description": "K-FreeLang: 완전히 독립된 한국형 프로그래밍 언어. 47개 한글 키워드, 자가호스팅, PIPA/ISMS 준수",
   "main": "dist/compiler/compiler.js",
   "bin": {
-    "k-freelang": "./bin/k-freelang"
+    "freelang-korean": "./bin/freelang-korean",
+    "k-freelang": "./bin/freelang-korean"
   },
   "scripts": {
     "build": "echo '🔨 [1/4] K-FreeLang 소스 컴파일 중...' && tsc && echo '✅ [1/4] 컴파일 완료'",
