@@ -25,7 +25,7 @@ jobs:
         cache: 'npm'
 
     - name: 📚 Install dependencies
-      run: npm ci
+      run: npm ci --legacy-peer-deps
 
     - name: 🔨 [1/4] Compile TypeScript
       run: npm run build
