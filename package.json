@@ -21,5 +21,10 @@
     "korea-standard"
   ],
   "author": "Kim (KimNexus)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^6.0.2"
+  }
 }
