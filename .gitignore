@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+_v2-source/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+.npm-cache/
+
+# Tests
+coverage/
+.nyc_output/
+
+# Build artifacts
+*.o
+*.so
+*.dll
+*.exe

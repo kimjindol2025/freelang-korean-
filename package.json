@@ -1,0 +1,25 @@
+{
+  "name": "@k-freelang/independent",
+  "version": "0.1.0-alpha",
+  "description": "K-FreeLang: 완전히 독립된 한국형 프로그래밍 언어",
+  "main": "dist/compiler/compiler.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "dev": "ts-node src/compiler/compiler.ts",
+    "bootstrap": "npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gogs.dclub.kr/kim/freelang-korean-independent.git"
+  },
+  "keywords": [
+    "k-freelang",
+    "korean-language",
+    "independent-compiler",
+    "self-hosting",
+    "korea-standard"
+  ],
+  "author": "Kim (KimNexus)",
+  "license": "MIT"
+}
