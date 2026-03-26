@@ -1376,6 +1376,7 @@ export class KoreanParser {
           type: 'RangePattern',
           start: startValue,
           end: endValue,
+          inclusive: true,
           line: token.line,
           column: token.column
         };
