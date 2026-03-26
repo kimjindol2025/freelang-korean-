@@ -1217,8 +1217,175 @@ export class KoreanParser {
       };
     }
 
+    // Match expression (조건 value { 패턴 ... })
+    if (this.check(TokenType.MATCH)) {
+      return this.parseMatchExpression();
+    }
+
     throw new Error(
       `예상치 못한 토큰: ${token.value} (${token.type}) at line ${token.line}:${token.column}`
+    );
+  }
+
+  /**
+   * Match expression 파싱: 조건 표현식 { 패턴 ... → body ... }
+   */
+  private parseMatchExpression(): AST.MatchExpression {
+    const matchToken = this.advance(); // consume MATCH (조건)
+    const expression = this.parseExpression();
+    this.consume(TokenType.LBRACE, '{ 필요');
+
+    const arms: AST.MatchArm[] = [];
+    while (!this.check(TokenType.RBRACE) && !this.isAtEnd()) {
+      this.skipNewlines();
+
+      // Parse pattern (패턴 ... 또는 직접 패턴)
+      if (this.check(TokenType.PATTERN)) {
+        this.advance(); // consume PATTERN keyword
+      }
+
+      const pattern = this.parsePattern();
+
+      // Optional guard (만약 조건)
+      let guard: AST.Expression | undefined;
+      if (this.check(TokenType.IF)) {
+        this.advance();
+        guard = this.parseExpression();
+      }
+
+      // Consume arrow (→ 또는 =>)
+      this.consume(TokenType.ARROW, '→ 필요');
+
+      // Parse body (expression or block)
+      const body = this.check(TokenType.LBRACE)
+        ? this.parseBlockStatement()
+        : this.parseExpression();
+
+      arms.push({
+        type: 'MatchArm',
+        pattern,
+        guard,
+        body,
+        line: matchToken.line,
+        column: matchToken.column
+      });
+
+      if (!this.check(TokenType.RBRACE)) {
+        this.skipNewlines();
+      }
+    }
+
+    this.consume(TokenType.RBRACE, '} 필요');
+
+    return {
+      type: 'MatchExpression',
+      expression,
+      arms,
+      line: matchToken.line,
+      column: matchToken.column
+    };
+  }
+
+  /**
+   * Pattern 파싱: identifier, literal, range, wildcard, or pattern
+   */
+  private parsePattern(): AST.Pattern {
+    const token = this.peek();
+
+    // Wildcard pattern (_)
+    if (this.check(TokenType.UNDERSCORE)) {
+      this.advance();
+      return {
+        type: 'WildcardPattern',
+        line: token.line,
+        column: token.column
+      };
+    }
+
+    // Range pattern (1..10)
+    if (this.check(TokenType.NUMBER)) {
+      const startToken = this.advance();
+      const startValue = Number(startToken.value);
+
+      if (this.check(TokenType.DOTDOT)) {
+        this.advance();
+        const endToken = this.consume(TokenType.NUMBER, '숫자 필요');
+        const endValue = Number(endToken.value);
+
+        return {
+          type: 'RangePattern',
+          start: startValue,
+          end: endValue,
+          line: token.line,
+          column: token.column
+        };
+      }
+
+      // Just a literal pattern
+      return {
+        type: 'LiteralPattern',
+        value: startValue,
+        line: token.line,
+        column: token.column
+      };
+    }
+
+    // String or identifier pattern
+    if (this.check(TokenType.STRING)) {
+      const strToken = this.advance();
+      return {
+        type: 'LiteralPattern',
+        value: strToken.value,
+        line: token.line,
+        column: token.column
+      };
+    }
+
+    if (this.check(TokenType.IDENTIFIER)) {
+      const idToken = this.advance();
+      const name = idToken.value;
+
+      // Check for or pattern (pattern1 | pattern2)
+      if (this.check(TokenType.OR)) {
+        const patterns: AST.Pattern[] = [
+          {
+            type: 'IdentifierPattern',
+            name,
+            line: token.line,
+            column: token.column
+          }
+        ];
+
+        while (this.check(TokenType.OR)) {
+          this.advance();
+          this.skipNewlines();
+          const nextId = this.consume(TokenType.IDENTIFIER, '식별자 필요').value;
+          patterns.push({
+            type: 'IdentifierPattern',
+            name: nextId,
+            line: this.peek().line,
+            column: this.peek().column
+          });
+        }
+
+        return {
+          type: 'OrPattern',
+          patterns,
+          line: token.line,
+          column: token.column
+        };
+      }
+
+      return {
+        type: 'IdentifierPattern',
+        name,
+        line: token.line,
+        column: token.column
+      };
+    }
+
+    throw new Error(
+      `패턴 예상: ${token.value} at line ${token.line}:${token.column}`
     );
   }
 

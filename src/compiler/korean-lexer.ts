@@ -97,6 +97,8 @@ export enum TokenType {
   IN = 'IN',               // in (for...in)
   RANGE = 'RANGE',         // .. (범위)
   RANGE_INCLUSIVE = 'RANGE_INCLUSIVE', // ..= (포함 범위)
+  DOTDOT = 'DOTDOT',       // .. (패턴 범위)
+  UNDERSCORE = 'UNDERSCORE', // _ (와일드카드 패턴)
 }
 
 export interface Token {
@@ -758,6 +760,17 @@ export class KoreanLexer {
         this.advance();
         this.advance();
       }
+      else if (char === '.' && this.peek() === '.') {
+        // .. (DOTDOT) for range patterns
+        this.tokens.push({
+          type: TokenType.DOTDOT,
+          value: '..',
+          line,
+          column,
+        });
+        this.advance();
+        this.advance();
+      }
       else if (char === '.') {
         this.tokens.push({
           type: TokenType.DOT,
@@ -766,6 +779,22 @@ export class KoreanLexer {
           column,
         });
         this.advance();
+      }
+      else if (char === '_') {
+        // Underscore wildcard pattern or identifier starting with _
+        if (this.isIdentifierContinue(this.peek())) {
+          // It's an identifier starting with underscore
+          this.tokens.push(this.readIdentifier());
+        } else {
+          // It's a wildcard pattern (_)
+          this.tokens.push({
+            type: TokenType.UNDERSCORE,
+            value: '_',
+            line,
+            column,
+          });
+          this.advance();
+        }
       }
       else {
         // 알 수 없는 문자 스킵
