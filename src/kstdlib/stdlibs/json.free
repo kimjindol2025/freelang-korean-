@@ -1,0 +1,26 @@
+/**
+ * K-StdLib: JSON 모듈
+ * JSON 인코딩/디코딩
+ */
+
+공개 모듈 JSON {
+  함수 문자열로(obj: 어떤) -> 문자열 {
+    // JavaScript JSON.stringify()
+    반환 ""
+  }
+
+  함수 파싱(json문자열: 문자열) -> 어떤 {
+    // JavaScript JSON.parse()
+    반환 공집합
+  }
+
+  함수 예쁘게(obj: 어떤, 들여쓰기: 숫자) -> 문자열 {
+    // JSON.stringify with formatting
+    반환 ""
+  }
+
+  함수 타당(json문자열: 문자열) -> 참거짓 {
+    // JSON 유효성 검사
+    반환 거짓
+  }
+}
