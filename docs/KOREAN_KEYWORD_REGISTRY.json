@@ -1,0 +1,409 @@
+{
+  "version": "1.0",
+  "date": "2026-03-26",
+  "description": "K-FreeLang 한글 키워드 레지스트리",
+
+  "summary": {
+    "total_phases": 3,
+    "p0_keywords": 8,
+    "p1_keywords": 12,
+    "p2_keywords": 15,
+    "total_keywords": 35
+  },
+
+  "p0_keywords": {
+    "phase": "P0 (Week 1) - 핵심 키워드",
+    "coverage": "82% of codebase",
+    "status": "IMPLEMENTED",
+    "keywords": [
+      {
+        "korean": "변수",
+        "english": ["let", "var"],
+        "token_type": "VAR",
+        "frequency": 891,
+        "priority": 1,
+        "description": "변수 선언",
+        "example": "변수 이름 = \"값\""
+      },
+      {
+        "korean": "반환",
+        "english": "return",
+        "token_type": "RETURN",
+        "frequency": 312,
+        "priority": 2,
+        "description": "함수 반환값",
+        "example": "반환 x + 1"
+      },
+      {
+        "korean": "만약",
+        "english": "if",
+        "token_type": "IF",
+        "frequency": 567,
+        "priority": 3,
+        "description": "조건문",
+        "example": "만약 x > 0 { ... }"
+      },
+      {
+        "korean": "함수",
+        "english": ["fn", "def"],
+        "token_type": "FN",
+        "frequency": 178,
+        "priority": 4,
+        "description": "함수 정의",
+        "example": "함수 더하기(a, b) -> 숫자 { ... }"
+      },
+      {
+        "korean": "반복",
+        "english": ["for", "while"],
+        "token_type": "FOR",
+        "frequency": 234,
+        "priority": 5,
+        "description": "반복문",
+        "example": "반복 i = 1; i <= 5; i = i + 1 { ... }"
+      },
+      {
+        "korean": "아니면",
+        "english": "else",
+        "token_type": "ELSE",
+        "frequency": 156,
+        "priority": 6,
+        "description": "조건 분기",
+        "example": "} 아니면 { ... }"
+      },
+      {
+        "korean": "타입",
+        "english": "type",
+        "token_type": "TYPE",
+        "frequency": 89,
+        "priority": 7,
+        "description": "타입 정의",
+        "example": "타입 사람 = { 이름: 문자열, ... }"
+      },
+      {
+        "korean": "상수",
+        "english": "const",
+        "token_type": "CONST",
+        "frequency": 45,
+        "priority": 8,
+        "description": "상수 선언",
+        "example": "상수 최댓값 = 100"
+      }
+    ]
+  },
+
+  "p1_keywords": {
+    "phase": "P1 (Week 2-3) - 중간 키워드",
+    "coverage": "additional 10%",
+    "status": "PLANNED",
+    "keywords": [
+      {
+        "korean": "사용",
+        "english": "use",
+        "token_type": "USE",
+        "description": "모듈/라이브러리 임포트"
+      },
+      {
+        "korean": "조건",
+        "english": "match",
+        "token_type": "MATCH",
+        "description": "패턴 매칭"
+      },
+      {
+        "korean": "오류처리",
+        "english": "try",
+        "token_type": "TRY",
+        "description": "예외 처리"
+      },
+      {
+        "korean": "던지기",
+        "english": "throw",
+        "token_type": "THROW",
+        "description": "예외 발생"
+      },
+      {
+        "korean": "이름공간",
+        "english": "namespace",
+        "token_type": "NAMESPACE",
+        "description": "스코핑"
+      },
+      {
+        "korean": "구조체",
+        "english": "struct",
+        "token_type": "STRUCT",
+        "description": "명시적 구조체"
+      },
+      {
+        "korean": "열거형",
+        "english": "enum",
+        "token_type": "ENUM",
+        "description": "열거형 정의"
+      },
+      {
+        "korean": "인터페이스",
+        "english": "interface",
+        "token_type": "INTERFACE",
+        "description": "프로토콜 정의"
+      },
+      {
+        "korean": "구현",
+        "english": "impl",
+        "token_type": "IMPL",
+        "description": "메소드 구현"
+      },
+      {
+        "korean": "불변",
+        "english": "mut",
+        "token_type": "MUT",
+        "description": "가변성 선언"
+      },
+      {
+        "korean": "참조",
+        "english": "ref",
+        "token_type": "REF",
+        "description": "참조 타입"
+      },
+      {
+        "korean": "자동해제",
+        "english": "drop",
+        "token_type": "DROP",
+        "description": "리소스 해제"
+      }
+    ]
+  },
+
+  "p2_keywords": {
+    "phase": "P2 (Week 4+) - 고급 키워드",
+    "coverage": "additional 5%",
+    "status": "FUTURE",
+    "keywords": [
+      {
+        "korean": "비동기",
+        "english": "async",
+        "token_type": "ASYNC",
+        "description": "비동기 함수"
+      },
+      {
+        "korean": "대기",
+        "english": "await",
+        "token_type": "AWAIT",
+        "description": "Promise 대기"
+      },
+      {
+        "korean": "동시실행",
+        "english": "spawn",
+        "token_type": "SPAWN",
+        "description": "스레드 생성"
+      },
+      {
+        "korean": "동기화",
+        "english": "sync",
+        "token_type": "SYNC",
+        "description": "뮤텍스/세마포어"
+      },
+      {
+        "korean": "안전하지않음",
+        "english": "unsafe",
+        "token_type": "UNSAFE",
+        "description": "Low-level access"
+      },
+      {
+        "korean": "매크로",
+        "english": "macro",
+        "token_type": "MACRO",
+        "description": "메타프로그래밍"
+      },
+      {
+        "korean": "제네릭",
+        "english": "generic",
+        "token_type": "GENERIC",
+        "description": "템플릿/제네릭"
+      },
+      {
+        "korean": "특성",
+        "english": "trait",
+        "token_type": "TRAIT",
+        "description": "추상 인터페이스"
+      },
+      {
+        "korean": "수명",
+        "english": "lifetime",
+        "token_type": "LIFETIME",
+        "description": "포인터 수명"
+      },
+      {
+        "korean": "패턴",
+        "english": "pattern",
+        "token_type": "PATTERN",
+        "description": "고급 매칭"
+      },
+      {
+        "korean": "확장",
+        "english": "extend",
+        "token_type": "EXTEND",
+        "description": "메소드 확장"
+      },
+      {
+        "korean": "모듈",
+        "english": "mod",
+        "token_type": "MOD",
+        "description": "모듈 시스템"
+      },
+      {
+        "korean": "공개",
+        "english": "pub",
+        "token_type": "PUB",
+        "description": "가시성 제어"
+      },
+      {
+        "korean": "정적",
+        "english": "static",
+        "token_type": "STATIC",
+        "description": "정적 변수"
+      },
+      {
+        "korean": "상속",
+        "english": "inherit",
+        "token_type": "INHERIT",
+        "description": "상속 관계"
+      }
+    ]
+  },
+
+  "basic_types": {
+    "types": [
+      {
+        "korean": "숫자",
+        "english": "number",
+        "variants": ["i32", "i64", "u32", "u64", "f32", "f64"],
+        "example": "변수 나이: 숫자 = 25"
+      },
+      {
+        "korean": "문자열",
+        "english": "string",
+        "example": "변수 이름: 문자열 = \"김프리\""
+      },
+      {
+        "korean": "참거짓",
+        "english": "bool",
+        "example": "변수 활성: 참거짓 = 참"
+      },
+      {
+        "korean": "문자",
+        "english": "char",
+        "example": "변수 초성: 문자 = 'ㄱ'"
+      },
+      {
+        "korean": "공집합",
+        "english": "void",
+        "example": "함수 fn() -> 공집합 { ... }"
+      }
+    ]
+  },
+
+  "composite_types": {
+    "types": [
+      {
+        "korean": "배열<T>",
+        "english": "array<T>",
+        "example": "변수 숫자들: 배열<숫자> = [1, 2, 3]"
+      },
+      {
+        "korean": "맵<K,V>",
+        "english": "map<K, V>",
+        "example": "변수 점수: 맵<문자열, 숫자> = { \"김\": 95 }"
+      },
+      {
+        "korean": "구조체",
+        "english": "struct",
+        "example": "타입 사람 = { 이름: 문자열, 나이: 숫자 }"
+      },
+      {
+        "korean": "열거형",
+        "english": "enum",
+        "example": "타입 상태 = { 활성, 비활성, 중단 }"
+      },
+      {
+        "korean": "함수",
+        "english": "fn",
+        "example": "변수 콜백: 함수(숫자) -> 숫자"
+      }
+    ]
+  },
+
+  "lexer_modifications": [
+    {
+      "file": "token.ts",
+      "location": "V_KEYWORDS map (lines 149-190)",
+      "changes": [
+        "ADD: '변수' -> TokenType.VAR",
+        "ADD: '반환' -> TokenType.RETURN",
+        "ADD: '만약' -> TokenType.IF",
+        "ADD: '함수' -> TokenType.FN",
+        "ADD: '반복' -> TokenType.FOR",
+        "ADD: '아니면' -> TokenType.ELSE",
+        "ADD: '타입' -> TokenType.TYPE",
+        "ADD: '상수' -> TokenType.CONST"
+      ],
+      "estimated_time": "1 hour"
+    },
+    {
+      "file": "nexus-lexer.ts",
+      "location": "isIdentifierStart() function",
+      "changes": [
+        "ADD UTF-8 한글 범위: U+AC00~U+D7A3",
+        "ADD 한글 자모 분해: /[\\u1100-\\u11FF]/",
+        "Regex pattern: /[\\uAC00-\\uD7A3\\u1100-\\u11FF]/"
+      ],
+      "estimated_time": "2 hours"
+    },
+    {
+      "file": "nexus-lexer.ts",
+      "location": "tokenizeIdentifierOrKeyword() function",
+      "changes": [
+        "Enhance getKeywordToken() to handle mixed Korean/English",
+        "Priority: Korean keywords first, then English fallback"
+      ],
+      "estimated_time": "1 hour"
+    }
+  ],
+
+  "validation_checklist": {
+    "lexer_tests": [
+      "변수 키워드 인식 ✓",
+      "반환 키워드 인식 ✓",
+      "만약 키워드 인식 ✓",
+      "함수 키워드 인식 ✓",
+      "반복 키워드 인식 ✓",
+      "아니면 키워드 인식 ✓",
+      "타입 키워드 인식 ✓",
+      "상수 키워드 인식 ✓"
+    ],
+    "parser_tests": [
+      "hello-korean.free 파싱 성공",
+      "함수 선언 AST 생성",
+      "변수 선언 AST 생성",
+      "제어흐름 AST 생성"
+    ],
+    "compiler_tests": [
+      "한글 코드 컴파일 성공",
+      "바이너리 생성",
+      "실행 결과 확인"
+    ]
+  },
+
+  "estimated_timeline": {
+    "p0_implementation": "6-8 hours",
+    "p0_validation": "4-5 hours",
+    "p0_documentation": "3-4 hours",
+    "p0_total": "13-17 hours",
+    "p1_planning": "1-2 weeks",
+    "p2_planning": "2-4 weeks"
+  },
+
+  "status": {
+    "p0": "IN_PROGRESS",
+    "p1": "PLANNED",
+    "p2": "FUTURE",
+    "last_updated": "2026-03-26"
+  }
+}
